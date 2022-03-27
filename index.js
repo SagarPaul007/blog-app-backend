@@ -1,9 +1,8 @@
 const { ApolloServer, gql } = require("apollo-server");
 const mongoose = require("mongoose");
-require("dotenv").config();
-const { MONGODB_URI } = process.env;
 
-const typeDefs = require("./src/gql-types/typeDefs");
+const { MONGODB_URI } = require("./src/util/env.variables");
+const typeDefs = require("./src/gql");
 const resolvers = require("./src/resolvers");
 
 const server = new ApolloServer({ typeDefs, resolvers });

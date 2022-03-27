@@ -12,10 +12,10 @@
     "apollo-server": "^3.6.6",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.0",
-    "email-validator": "^2.0.4",
     "graphql": "^16.3.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.2.8"
+    "mongoose": "^6.2.8",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

@@ -1,11 +1,10 @@
 const { gql } = require("apollo-server");
 const { UserInputError } = require("apollo-server");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 
 const User = require("../models/User.model");
-const { JWT_SECRET_KEY } = require("../util/env.variables");
 const validate = require("../util/validate");
+const { generateToken } = require("../util/token");
 
 module.exports = {
   registerUser: async (
@@ -42,10 +41,7 @@ module.exports = {
       const res = await user.save();
 
       // create token
-      const token = jwt.sign(
-        { id: res._id, email: res.email, username: res.email },
-        process.env.JWT_SECRET_KEY
-      );
+      const token = generateToken(res);
 
       return {
         ...res._doc,
@@ -81,10 +77,7 @@ module.exports = {
     }
 
     // generate token
-    const token = jwt.sign(
-      { id: user._id, email: user.email, username: user.username },
-      process.env.JWT_SECRET_KEY
-    );
+    const token = generateToken(user);
 
     return {
       ...user._doc,

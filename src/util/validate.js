@@ -11,6 +11,9 @@ const validate = ({ name, email, username, password, confirmPassword }) => {
   if (email && !validator.isEmail(email)) {
     throw new UserInputError("Email is not valid");
   }
+  if (password && password.length < 8) {
+    throw new UserInputError("Password must be at least 8 characters long");
+  }
   if (
     password &&
     confirmPassword &&

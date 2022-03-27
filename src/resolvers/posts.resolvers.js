@@ -8,5 +8,7 @@ module.exports = {
   Mutation: {
     createPost: postMutations.createPost,
     deletePost: postMutations.deletePost,
+    updatePost: postMutations.updatePost,
+    likePost: postMutations.likePost,
   },
 };

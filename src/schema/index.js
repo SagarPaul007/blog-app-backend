@@ -63,5 +63,7 @@ module.exports = gql`
 
     createPost(createPostInput: CreatePostInput!): Post
     deletePost(postId: ID!): String
+    updatePost(postId: ID!, title: String, content: String): Post
+    likePost(postId: ID!): Post
   }
 `;

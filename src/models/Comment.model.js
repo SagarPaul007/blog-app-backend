@@ -4,8 +4,9 @@ const commentSchema = new Schema({
   content: {
     type: String,
     required: true,
+    trim: true,
   },
-  author: {
+  user: {
     type: Schema.Types.ObjectId,
     ref: "users",
     required: true,

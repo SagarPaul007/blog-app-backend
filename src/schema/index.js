@@ -15,6 +15,11 @@ module.exports = gql`
     password: String!
   }
 
+  input CreatePostInput {
+    title: String!
+    content: String!
+  }
+
   # types
   type User {
     _id: ID!
@@ -55,5 +60,8 @@ module.exports = gql`
   type Mutation {
     registerUser(registerUser: RegisterUser!): User
     loginUser(loginUser: LoginUser!): User
+
+    createPost(createPostInput: CreatePostInput!): Post
+    deletePost(postId: ID!): String
   }
 `;

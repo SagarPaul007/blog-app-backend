@@ -4,10 +4,12 @@ const postSchema = new Schema({
   title: {
     type: String,
     required: true,
+    trim: true,
   },
   content: {
     type: String,
     required: true,
+    trim: true,
   },
   author: {
     type: Schema.Types.ObjectId,
@@ -32,4 +34,4 @@ const postSchema = new Schema({
   ],
 });
 
-module.exports = model("Post", postSchema);
+module.exports = model("posts", postSchema);

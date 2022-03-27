@@ -2,10 +2,14 @@ const { ApolloServer, gql } = require("apollo-server");
 const mongoose = require("mongoose");
 
 const { MONGODB_URI } = require("./src/util/env.variables");
-const typeDefs = require("./src/gql");
+const typeDefs = require("./src/schema");
 const resolvers = require("./src/resolvers");
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req }) => ({ req }),
+});
 
 mongoose
   .connect(MONGODB_URI, {

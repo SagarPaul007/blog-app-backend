@@ -54,16 +54,22 @@ module.exports = gql`
 
   type Query {
     getUsers: [User]
+    getMyProfile: User
+    getUserProfile(userId: ID!): User
+
     getPosts: [Post]
+    getPostsForProfile: [Post]
+    getPostsByUserId(userId: ID!): [Post]
   }
 
   type Mutation {
     registerUser(registerUser: RegisterUser!): User
     loginUser(loginUser: LoginUser!): User
+    followUnfollowUser(userId: ID!): User
 
     createPost(createPostInput: CreatePostInput!): Post
     deletePost(postId: ID!): String
     updatePost(postId: ID!, title: String, content: String): Post
-    likePost(postId: ID!): Post
+    likeUnlikePost(postId: ID!): Post
   }
 `;

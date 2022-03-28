@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/User.model");
 const validate = require("../util/validate");
 const { generateToken } = require("../util/token");
+const auth = require("../util/auth");
 
 module.exports = {
   registerUser: async (
@@ -82,5 +83,45 @@ module.exports = {
       ...user._doc,
       token,
     };
+  },
+
+  followUnfollowUser: async (_, { userId }, context, info) => {
+    // get user from context
+    const userFromContext = auth(context);
+    const user = await User.findById(userFromContext._id);
+    try {
+      // find user
+      const userToFollow = await User.findById(userId);
+      if (!userToFollow) {
+        throw new Error("User not found");
+      }
+
+      // check if already following
+      const isFollowing = user.following.some(
+        (id) => id.toString() === userId.toString()
+      );
+      if (isFollowing) {
+        // unfollow user
+        const following = user.following.filter(
+          (id) => id.toString() !== userId.toString()
+        );
+        const followers = userToFollow.followers.filter(
+          (id) => id.toString() !== user._id.toString()
+        );
+        user.following = following;
+        userToFollow.followers = followers;
+      } else {
+        // follow user
+        user.following.push(userId);
+        userToFollow.followers.push(user._id);
+      }
+
+      await user.save();
+      await userToFollow.save();
+
+      return user;
+    } catch (err) {
+      throw new Error(err);
+    }
   },
 };

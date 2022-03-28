@@ -85,7 +85,7 @@ module.exports = {
     }
   },
 
-  likePost: async (_, { postId }, context, info) => {
+  likeUnlikePost: async (_, { postId }, context, info) => {
     // get user from context
     const user = auth(context);
     try {
@@ -96,11 +96,17 @@ module.exports = {
       }
       // check if user has already liked the post
       if (post.likes.some((like) => like.toString() === user._id.toString())) {
-        throw new Error("User already liked this post");
+        // remove user from likes array
+        const newLikes = post.likes.filter(
+          (each) => each.toString() !== user._id.toString()
+        );
+        post.likes = newLikes;
+        await post.save();
+      } else {
+        // add user to likes array
+        post.likes.push(user._id);
+        await post.save();
       }
-      // add user to likes array
-      post.likes.push(user._id);
-      await post.save();
       return post;
     } catch (err) {
       throw new Error(err);
